@@ -1,12 +1,9 @@
 const express = require('express');
-
 const { conectar, desconectar } = require('./conexion');
-
 const cors = require('cors');
 require('dotenv').config();
 
 const routesPricing = require('./routes/routes_pricing_sku');
-
 
 const app = express();
 
@@ -15,8 +12,7 @@ app.use(cors());
 app.use(express.json());
 
 // Rutas
-app.use('/api/pricing', routesPricing);
-
+app.use('/api/pricing/sku', routesPricing);  // ← CAMBIO AQUÍ
 
 // Ruta de prueba
 app.get('/', (req, res) => {
@@ -25,7 +21,9 @@ app.get('/', (req, res) => {
     version: '1.0.0',
     endpoints: [
       'GET /api/pricing/sku',
-      'GET /api/pricing/sku/:idProductoMimbral',
+      'GET /api/pricing/sku/health',
+      'GET /api/pricing/sku/stats',
+      'GET /api/pricing/sku/export'
     ]
   });
 });
@@ -35,7 +33,7 @@ const PORT = process.env.PORT || 3000;
 async function iniciar() {
   try {
     const pool = await conectar();
-    app.locals.sqlPool = pool;  // ← CRUCIAL
+    app.locals.sqlPool = pool;
     
     app.listen(PORT, () => {
       console.log(`✅ Servidor corriendo en http://localhost:${PORT}`);

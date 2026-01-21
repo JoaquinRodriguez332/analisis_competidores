@@ -289,10 +289,7 @@ ResultadoFinal AS (
 			WHEN precio_min_competidor IS NULL 
 				OR precio_min_competidor = 0
 				OR cantidad_competidores = 0 THEN NULL
-			ELSE ROUND(
-				((precio_nuestro - precio_min_competidor) / precio_min_competidor) * 100, 
-				2
-			)
+			ELSE ROUND(((precio_nuestro - precio_min_competidor) * 1.0 / precio_min_competidor) * 100, 2)
 		END AS delta_vs_barato_porc,
 		
 		-- ============================================================
